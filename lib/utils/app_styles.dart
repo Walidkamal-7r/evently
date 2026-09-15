@@ -98,6 +98,7 @@ class AppStyles {
     color: AppColors.white,
   );
 
+
   /* Dark Mode Styles */
 
   static TextStyle semiBold24white = GoogleFonts.poppins(
@@ -194,5 +195,10 @@ class AppStyles {
     fontSize: 14,
     fontWeight: FontWeight.w400,
     color: AppColors.mainColorDark,
+  );
+  static TextStyle medium20Black = GoogleFonts.poppins(
+    fontSize: 20,
+    fontWeight: FontWeight.w500,
+    color: AppColors.black,
   );
 }

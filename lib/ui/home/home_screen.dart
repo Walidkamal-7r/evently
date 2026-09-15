@@ -8,10 +8,6 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.teal,
-        title: Text(AppLocalizations.of(context)!.language),
-      ),
       body: ProfileTab(),
     );
   }
