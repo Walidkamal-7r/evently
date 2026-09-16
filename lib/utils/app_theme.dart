@@ -16,6 +16,9 @@ class AppTheme {
     dividerColor: AppColors.strokeLight,
     highlightColor: AppColors.inputsLight,
     focusColor: AppColors.disable,
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+        backgroundColor: AppColors.mainColorLight,
+        shape: StadiumBorder()),
     textTheme: TextTheme(
       titleSmall: AppStyles.regular14secTextLight,
       titleMedium: AppStyles.medium20MainTextLight,
@@ -44,6 +47,9 @@ class AppTheme {
     dividerColor: AppColors.strokeDark,
     highlightColor: AppColors.inputsDark,
     focusColor: AppColors.disable,
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+        backgroundColor: AppColors.mainColorDark,
+        shape: StadiumBorder()),
     textTheme: TextTheme(
       titleSmall: AppStyles.regular14SecondText,
       titleMedium: AppStyles.medium20MainTextDark,
