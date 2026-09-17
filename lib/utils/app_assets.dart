@@ -7,7 +7,11 @@ class AppAssets {
 
   static const String eventlyDark = 'assets/images/eventlyD.png';
 
+  static const String eventlyDarkS = 'assets/images/eventlyDarkS.png';
+
   static const String eventlyLight = 'assets/images/eventlyL.png';
+
+  static const String eventlyLightS = 'assets/images/eventlyLightS.png';
 
   static const String personalizeDark = 'assets/images/personalizeD.png';
 
