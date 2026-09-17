@@ -82,6 +82,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get dontHaveAnAccount => 'ليس لديك حساب؟';
 
   @override
+  String get createYourAccount => 'إنشئ حسابك';
+
+  @override
   String get signUp => 'إنشاء حساب';
 
   @override

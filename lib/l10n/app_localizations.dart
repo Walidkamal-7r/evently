@@ -228,10 +228,16 @@ abstract class AppLocalizations {
   /// **'Don’t have an account ?'**
   String get dontHaveAnAccount;
 
+  /// No description provided for @createYourAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Create your account'**
+  String get createYourAccount;
+
   /// No description provided for @signUp.
   ///
   /// In en, this message translates to:
-  /// **'signUp'**
+  /// **'SignUp'**
   String get signUp;
 
   /// No description provided for @or.
