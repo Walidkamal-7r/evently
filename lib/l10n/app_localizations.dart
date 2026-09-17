@@ -198,6 +198,24 @@ abstract class AppLocalizations {
   /// **'Login to your account'**
   String get loginToYourAccount;
 
+  /// No description provided for @enterValidEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter valid email'**
+  String get enterValidEmail;
+
+  /// No description provided for @passNotValid.
+  ///
+  /// In en, this message translates to:
+  /// **'Password should be at least 6 chars'**
+  String get passNotValid;
+
+  /// No description provided for @passNotMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Re-Password doesn\'t match Password'**
+  String get passNotMatch;
+
   /// No description provided for @enterYourEmail.
   ///
   /// In en, this message translates to:
