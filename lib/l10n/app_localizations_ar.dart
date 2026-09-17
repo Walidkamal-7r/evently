@@ -67,6 +67,15 @@ class AppLocalizationsAr extends AppLocalizations {
   String get loginToYourAccount => 'تسجيل الدخول إلى حسابك';
 
   @override
+  String get enterValidEmail => 'البريد الالكتروني غير صحيح';
+
+  @override
+  String get passNotValid => 'يجب ان تكون كلمة المرور اكثر من 6 حروف/ارقام';
+
+  @override
+  String get passNotMatch => 'كلمة المرور غير متطابقة';
+
+  @override
   String get enterYourEmail => 'أدخل بريدك الإلكتروني';
 
   @override

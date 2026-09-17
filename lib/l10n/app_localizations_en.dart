@@ -67,6 +67,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loginToYourAccount => 'Login to your account';
 
   @override
+  String get enterValidEmail => 'Enter valid email';
+
+  @override
+  String get passNotValid => 'Password should be at least 6 chars';
+
+  @override
+  String get passNotMatch => 'Re-Password doesn\'t match Password';
+
+  @override
   String get enterYourEmail => 'Enter your email';
 
   @override

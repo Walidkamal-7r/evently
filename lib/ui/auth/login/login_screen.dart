@@ -12,7 +12,11 @@ import '../../widgets/custom_elevated_button.dart';
 import '../../widgets/custom_text_field.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+  LoginScreen({super.key});
+
+  var emailController = TextEditingController();
+  var passwordController = TextEditingController();
+  var formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +31,7 @@ class LoginScreen extends StatelessWidget {
             vertical: height * 0.02,
           ),
           child: Form(
+            key: formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               spacing: height * 0.02,
@@ -47,6 +52,23 @@ class LoginScreen extends StatelessWidget {
                     Icons.email_outlined,
                     color: AppColors.disable,
                   ),
+                  keyboardType: TextInputType.emailAddress,
+                  controller: emailController,
+                  validator: (text) {
+                    if (text == null || text
+                        .trim()
+                        .isEmpty) {
+                      return AppLocalizations.of(context)!.enterYourEmail;
+                    }
+                    final bool emailValid =
+                    RegExp(
+                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                        .hasMatch(text);
+                    if (!emailValid) {
+                      return AppLocalizations.of(context)!.enterValidEmail;
+                    }
+                    return null;
+                  },
                 ),
                 CustomTextField(
                   style: Theme.of(context).textTheme.bodyLarge,
@@ -60,6 +82,19 @@ class LoginScreen extends StatelessWidget {
                     Icons.visibility_off_outlined,
                     color: AppColors.disable,
                   ),
+                  obscureText: true,
+                  controller: passwordController,
+                  validator: (text) {
+                    if (text == null || text
+                        .trim()
+                        .isEmpty) {
+                      return AppLocalizations.of(context)!.enterYourPassword;
+                    }
+                    if (text.length < 6) {
+                      return AppLocalizations.of(context)!.passNotValid;
+                    }
+                    return null;
+                  },
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -158,7 +193,9 @@ class LoginScreen extends StatelessWidget {
 
   void login() {
     {
-      //todo : nav to home screen.
+      if (formKey.currentState!.validate() == true) {
+
+      }
     }
   }
 }
