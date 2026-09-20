@@ -59,5 +59,6 @@
   "addEvent": "إضافة فعالية",
   "updateEvent": "تحديث الفعالية",
   "editEvent": "تعديل الفعالية",
-  "eventDetails": "تفاصيل الفعالية"
+  "eventDetails": "تفاصيل الفعالية",
+  "emptyField": "لا يمكنك ترك هذا الحقل فارغ"
 }
