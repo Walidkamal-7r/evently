@@ -59,5 +59,6 @@
   "addEvent": "Add event",
   "updateEvent": "Update event",
   "editEvent": "Edit event",
-  "eventDetails": "Event details"
+  "eventDetails": "Event details",
+  "emptyField": "This field is required"
 }

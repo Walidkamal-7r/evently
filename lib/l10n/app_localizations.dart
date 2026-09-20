@@ -467,6 +467,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Event details'**
   String get eventDetails;
+
+  /// No description provided for @emptyField.
+  ///
+  /// In en, this message translates to:
+  /// **'This field is required'**
+  String get emptyField;
 }
 
 class _AppLocalizationsDelegate
