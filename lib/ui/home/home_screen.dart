@@ -5,6 +5,7 @@ import 'package:evently/ui/home/tabs/profile/profile_tab.dart';
 import 'package:evently/utils/app_colors.dart';
 import 'package:evently/utils/app_routes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -16,6 +17,19 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int selectedIndex = 0;
   List<Widget> tabsList = [HomeTab(), FavouriteTab(), ProfileTab()];
+
+
+  @override
+  void initState() {
+    super.initState();
+    initialization();
+  }
+
+  void initialization() async {
+    await Future.delayed(const Duration(seconds: 2));
+    FlutterNativeSplash.remove();
+  }
+
 
   @override
   Widget build(BuildContext context) {
