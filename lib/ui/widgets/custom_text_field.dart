@@ -21,6 +21,8 @@ class CustomTextField extends StatelessWidget {
   final TextInputType? keyboardType;
   final bool? obscureText;
   final int? maxLines;
+  final bool? filled;
+  final Color? fillColor;
 
   final String? obscuringCharacter;
 
@@ -42,6 +44,8 @@ class CustomTextField extends StatelessWidget {
     this.obscureText,
     this.maxLines,
     this.obscuringCharacter,
+    this.filled = false,
+    this.fillColor,
   });
 
   @override
@@ -71,6 +75,8 @@ class CustomTextField extends StatelessWidget {
         labelStyle: labelStyle,
         prefixIcon: prefixIcon,
         suffixIcon: suffixIcon,
+        filled: filled,
+        fillColor: fillColor,
       ),
     );
   }

@@ -1,7 +1,7 @@
+import 'package:evently/utils/app_colors.dart';
+import 'package:evently/utils/size_utils.dart';
 import 'package:flutter/material.dart';
 
-import '../../utils/app_colors.dart';
-import '../../utils/size_utils.dart';
 
 class CustomElevatedButton extends StatelessWidget {
   final VoidCallback? onPressed;

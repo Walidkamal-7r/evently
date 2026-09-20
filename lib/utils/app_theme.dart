@@ -12,6 +12,10 @@ class AppTheme {
       selectedLabelStyle: AppStyles.regular12MainLight,
       unselectedLabelStyle: AppStyles.regular12Disable,
     ),
+    appBarTheme: AppBarTheme(
+      backgroundColor: AppColors.transparent,
+      centerTitle: true,
+    ),
     cardColor: AppColors.mainColorLight,
     dividerColor: AppColors.strokeLight,
     highlightColor: AppColors.inputsLight,
@@ -44,6 +48,10 @@ class AppTheme {
       unselectedItemColor: AppColors.disable,
       selectedLabelStyle: AppStyles.regular12MainDark,
       unselectedLabelStyle: AppStyles.regular12Disable,
+    ),
+    appBarTheme: AppBarTheme(
+      backgroundColor: AppColors.transparent,
+      centerTitle: true,
     ),
     cardColor: AppColors.mainColorDark,
     dividerColor: AppColors.strokeDark,
