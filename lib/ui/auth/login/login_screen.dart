@@ -1,7 +1,10 @@
+import 'package:evently/utils/TOAST_UTILS.dart';
 import 'package:evently/utils/app_assets.dart';
 import 'package:evently/utils/app_colors.dart';
 import 'package:evently/utils/app_routes.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 import '../../../l10n/app_localizations.dart';
@@ -11,11 +14,18 @@ import '../../../utils/size_utils.dart';
 import '../../widgets/custom_elevated_button.dart';
 import '../../widgets/custom_text_field.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   LoginScreen({super.key});
 
-  var emailController = TextEditingController();
-  var passwordController = TextEditingController();
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  var emailController = TextEditingController(text: 'walid@route.com');
+
+  var passwordController = TextEditingController(text: '123456');
+
   var formKey = GlobalKey<FormState>();
 
   @override
@@ -107,9 +117,11 @@ class LoginScreen extends StatelessWidget {
                         AppLocalizations.of(context)!.forgetPassword,
                         style: Theme.of(context).textTheme.displayMedium
                             ?.copyWith(
-                              decoration: TextDecoration.underline,
-                              decorationColor: Theme.of(context).dividerColor,
-                            ),
+                          decoration: TextDecoration.underline,
+                          decorationColor: Theme
+                              .of(context)
+                              .dividerColor,
+                        ),
                       ),
                     ),
                   ],
@@ -191,10 +203,47 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  void login() {
+  void login() async {
     {
       if (formKey.currentState!.validate() == true) {
-
+        try {
+          final credential = await FirebaseAuth.instance
+              .signInWithEmailAndPassword(
+            email: emailController.text,
+            password: passwordController.text,
+          );
+          ToastUtils.toastMsg(
+            msg: 'Login Success',
+            backgroundColor: Theme
+                .of(context)
+                .cardColor,
+            textColor: AppColors.white,
+            gravity: ToastGravity.BOTTOM,
+          );
+        } on FirebaseAuthException catch (e) {
+          if (e.code == 'invalid-credential') {
+            ToastUtils.toastMsg(
+              msg: 'the email or password is incorrect',
+              backgroundColor: AppColors.red,
+              textColor: AppColors.white,
+              gravity: ToastGravity.BOTTOM,
+            );
+          } else if (e.code == 'network-request-failed') {
+            ToastUtils.toastMsg(
+              msg: 'No internet connection',
+              backgroundColor: AppColors.red,
+              textColor: AppColors.white,
+              gravity: ToastGravity.BOTTOM,
+            );
+          }
+        } catch (e) {
+          ToastUtils.toastMsg(
+            msg: e.toString(),
+            backgroundColor: AppColors.red,
+            textColor: AppColors.white,
+            gravity: ToastGravity.BOTTOM,
+          );
+        }
       }
     }
   }
