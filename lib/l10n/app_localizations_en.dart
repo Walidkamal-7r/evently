@@ -203,4 +203,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get emptyField => 'This field is required';
+
+  @override
+  String get added => 'Event added successfully';
 }
