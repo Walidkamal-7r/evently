@@ -12,6 +12,7 @@ import 'package:evently/utils/app_colors.dart';
 import 'package:evently/utils/app_styles.dart';
 import 'package:evently/utils/size_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -268,22 +269,23 @@ class _AddEventScreenState extends State<AddEventScreen> {
               selectedTime!.hour, selectedTime!.minute)
       );
       FirebaseUtils.addEventToFireStore(event).then((value) {
-        ToastUtils.toastMsg(
-            msg: AppLocalizations.of(context)!.added,
-            backgroundColor: Theme
-                .of(context)
-                .cardColor,
-            textColor: AppColors.white
-        );
+        ToastUtils.toastMsg(g(
+              msg: AppLocalizations.of(context)!.added,
+              backgroundColor: Theme.of(context).cardColor,
+              textColor: AppColors.white,
+              gravity: ToastGravity.BOTTO);
         //todo: back to home screen
       },)
           .catchError((error) {
         ToastUtils.toastMsg(
-            msg: error.toString(),
-            backgroundColor: AppColors.red,
-            textColor: AppColors.white
+          msg: error.toString(),
+          backgroundColor: AppColors.red,
+          textColor: AppColors.white,
+          gravity: ToastGravity.BOTTOM,
         );
-      },);
+      },
+      )
+      ;
     }
   }
 }
