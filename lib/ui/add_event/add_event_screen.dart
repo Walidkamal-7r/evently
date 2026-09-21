@@ -1,9 +1,12 @@
+import 'package:evently/firebase_utils.dart';
 import 'package:evently/l10n/app_localizations.dart';
+import 'package:evently/model/event.dart';
 import 'package:evently/providers/app_theme_provider.dart';
 import 'package:evently/ui/add_event/widgets/custom_date_time_widget.dart';
 import 'package:evently/ui/home/tabs/widgets/tab_item.dart';
 import 'package:evently/ui/widgets/custom_elevated_button.dart';
 import 'package:evently/ui/widgets/custom_text_field.dart';
+import 'package:evently/utils/TOAST_UTILS.dart';
 import 'package:evently/utils/app_assets.dart';
 import 'package:evently/utils/app_colors.dart';
 import 'package:evently/utils/app_styles.dart';
@@ -40,13 +43,11 @@ class _AddEventScreenState extends State<AddEventScreen> {
 
   int selectedIndex = 0;
   var formKey = GlobalKey<FormState>();
-  String? title;
-  String? description;
+  String title = '';
+  String description = '';
   DateTime? selectedDate;
   String formatDate = '';
-
   TimeOfDay? selectedTime;
-
   String formatTime = '';
   String selectedEventName = '';
   String selectedEventImage = '';
@@ -257,7 +258,32 @@ class _AddEventScreenState extends State<AddEventScreen> {
 
   void addEvent() {
     if (formKey.currentState?.validate() == true) {
-      //todo : add event to firestore
+      Event event = Event(
+          eventImage: selectedEventImage,
+          eventName: selectedEventName,
+          eventTitle: title,
+          eventDescription: description,
+          eventDate: DateTime(
+              selectedDate!.year, selectedDate!.month, selectedDate!.day,
+              selectedTime!.hour, selectedTime!.minute)
+      );
+      FirebaseUtils.addEventToFireStore(event).then((value) {
+        ToastUtils.toastMsg(
+            msg: AppLocalizations.of(context)!.added,
+            backgroundColor: Theme
+                .of(context)
+                .cardColor,
+            textColor: AppColors.white
+        );
+        //todo: back to home screen
+      },)
+          .catchError((error) {
+        ToastUtils.toastMsg(
+            msg: error.toString(),
+            backgroundColor: AppColors.red,
+            textColor: AppColors.white
+        );
+      },);
     }
   }
 }

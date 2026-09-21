@@ -203,4 +203,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get emptyField => 'لا يمكنك ترك هذا الحقل فارغ';
+
+  @override
+  String get added => 'تم حجز الفاعلية بنجاح';
 }
