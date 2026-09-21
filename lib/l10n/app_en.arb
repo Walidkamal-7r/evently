@@ -60,5 +60,6 @@
   "updateEvent": "Update event",
   "editEvent": "Edit event",
   "eventDetails": "Event details",
-  "emptyField": "This field is required"
+  "emptyField": "This field is required",
+  "added": "Event added successfully"
 }

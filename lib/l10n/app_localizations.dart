@@ -473,6 +473,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This field is required'**
   String get emptyField;
+
+  /// No description provided for @added.
+  ///
+  /// In en, this message translates to:
+  /// **'Event added successfully'**
+  String get added;
 }
 
 class _AppLocalizationsDelegate
