@@ -262,6 +262,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
       Event event = Event(
           eventTypeIndex: selectedIndex,
           eventName: selectedEventName,
+          eventCategoryIndex: selectedIndex + 1,
           eventTitle: title,
           eventDescription: description,
           eventDate: DateTime(

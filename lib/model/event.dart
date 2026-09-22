@@ -8,6 +8,7 @@ class Event {
   String eventName;
   String eventTitle;
   String eventDescription;
+  int eventCategoryIndex;
   DateTime eventDate;
   bool isFavourite;
 
@@ -18,6 +19,7 @@ class Event {
     required this.eventTitle,
     required this.eventDescription,
     required this.eventDate,
+    required this.eventCategoryIndex,
     this.isFavourite = false,
   });
 
@@ -29,6 +31,7 @@ class Event {
         eventName: data['eventName'],
         eventTitle: data['eventTitle'],
         eventDescription: data['eventDescription'],
+        eventCategoryIndex: data['eventCategoryIndex'],
         eventDate: (data['eventDate'] as Timestamp).toDate(),
         isFavourite: data['isFavourite'],
       );
@@ -41,6 +44,7 @@ class Event {
       'eventName': eventName,
       'eventTitle': eventTitle,
       'eventDescription': eventDescription,
+      'eventCategoryIndex': eventCategoryIndex,
       'eventDate': eventDate,
       'isFavourite': isFavourite,
     };

@@ -22,6 +22,7 @@ class HomeTab extends StatefulWidget {
 class _HomeTabState extends State<HomeTab> {
   int selectedIndex = 0;
   List<Event> eventsList = [];
+  List<Event> filterEventsList = [];
   Stream<List<Event>>? eventsStream;
 
   @override
@@ -152,14 +153,37 @@ class _HomeTabState extends State<HomeTab> {
                             .titleMedium,),);
                     } else {
                       eventsList = snapshot.data!;
-                      return ListView.separated
+                      if (selectedIndex == 0) {
+                        filterEventsList = eventsList;
+                        filterEventsList.sort((event1, event2) {
+                          return event1.eventDate.compareTo(event2.eventDate);
+                        },
+                        );
+                      } else {
+                        filterEventsList = eventsList.where((Event event) {
+                          return event.eventCategoryIndex == selectedIndex;
+                        }).toList();
+                        filterEventsList.sort((event1, event2) {
+                          return event1.eventDate.compareTo(event2.eventDate);
+                        },
+                        );
+                      }
+
+                      return filterEventsList.isEmpty ?
+                      Center(child: Text(AppLocalizations.of(context)!.noEvents,
+                        style: Theme
+                            .of(context)
+                            .textTheme
+                            .titleMedium,))
+                          :
+                      ListView.separated
                         (itemBuilder: (context, index) {
-                        return EventItem(event: eventsList[index],);
+                        return EventItem(event: filterEventsList[index],);
                       },
                           separatorBuilder: (context, index) {
                             return SizedBox(height: height * 0.02);
                           },
-                          itemCount: eventsList.length
+                          itemCount: filterEventsList.length
                       );
                     }
                   },

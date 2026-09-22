@@ -485,6 +485,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No events found'**
   String get noEvents;
+
+  /// No description provided for @addedFav.
+  ///
+  /// In en, this message translates to:
+  /// **'Event updated successfully'**
+  String get addedFav;
 }
 
 class _AppLocalizationsDelegate

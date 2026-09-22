@@ -64,6 +64,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         .labelLarge,
                   ),
                   CustomTextField(
+                    filled: true,
+                    fillColor: Theme
+                        .of(context)
+                        .highlightColor,
                     hintText: AppLocalizations.of(context)!.enterYourName,
                     hintStyle: Theme
                         .of(context)
@@ -84,6 +88,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     },
                   ),
                   CustomTextField(
+                    filled: true,
+                    fillColor: Theme
+                        .of(context)
+                        .highlightColor,
                     hintText: AppLocalizations.of(context)!.enterYourEmail,
                     hintStyle: Theme
                         .of(context)
@@ -112,6 +120,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     },
                   ),
                   CustomTextField(
+                    filled: true,
+                    fillColor: Theme
+                        .of(context)
+                        .highlightColor,
                     style: Theme
                         .of(context)
                         .textTheme
@@ -144,6 +156,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     },
                   ),
                   CustomTextField(
+                    filled: true,
+                    fillColor: Theme
+                        .of(context)
+                        .highlightColor,
                     style: Theme
                         .of(context)
                         .textTheme
