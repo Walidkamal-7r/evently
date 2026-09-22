@@ -4,7 +4,7 @@ class Event {
   static const String collectionName = 'Events';
 
   String id;
-  String eventImage;
+  int eventTypeIndex;
   String eventName;
   String eventTitle;
   String eventDescription;
@@ -13,7 +13,7 @@ class Event {
 
   Event({
     this.id = '',
-    required this.eventImage,
+    required this.eventTypeIndex,
     required this.eventName,
     required this.eventTitle,
     required this.eventDescription,
@@ -25,7 +25,7 @@ class Event {
   Event.fromJsonFireStore(Map<String, dynamic> data)
     : this(
         id: data['id'],
-        eventImage: data['eventImage'],
+        eventTypeIndex: data['eventTypeIndex'],
         eventName: data['eventName'],
         eventTitle: data['eventTitle'],
         eventDescription: data['eventDescription'],
@@ -37,7 +37,7 @@ class Event {
   Map<String, dynamic> toJsonFireStore() {
     return {
       'id': id,
-      'eventImage': eventImage,
+      'eventTypeIndex': eventTypeIndex,
       'eventName': eventName,
       'eventTitle': eventTitle,
       'eventDescription': eventDescription,

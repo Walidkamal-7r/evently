@@ -206,4 +206,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get added => 'تم حجز الفاعلية بنجاح';
+
+  @override
+  String get noEvents => 'لا يوجد فعاليات';
 }
