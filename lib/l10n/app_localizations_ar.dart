@@ -209,4 +209,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get noEvents => 'لا يوجد فعاليات';
+
+  @override
+  String get addedFav => 'تم التحديث بنجاح';
 }

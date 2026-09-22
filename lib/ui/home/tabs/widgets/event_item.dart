@@ -1,8 +1,13 @@
+import 'package:evently/firebase_utils.dart';
+import 'package:evently/l10n/app_localizations.dart';
 import 'package:evently/model/event.dart';
 import 'package:evently/providers/app_theme_provider.dart';
+import 'package:evently/utils/TOAST_UTILS.dart';
 import 'package:evently/utils/app_assets.dart';
+import 'package:evently/utils/app_colors.dart';
 import 'package:evently/utils/size_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -93,10 +98,27 @@ class EventItem extends StatelessWidget {
                   ),
                 ),
                 IconButton(
-                  onPressed: () {
-                    //todo : add to favourite
+                  onPressed: () {irebaseUtils.updateIsFavourite(event)
+                        .then((value) {
+                          ToastUtils.toastMsg(
+                            msg: AppLocalizations.of(context)!.addedFav,
+                            backgroundColor: Theme.of(context).cardColor,
+                            textColor: AppColors.white,
+                            gravity: ToastGravity.BOTTOM,
+                          );
+                        })
+                        .catchError((error) {
+                          ToastUtils.toastMsg(
+                            msg: error.toString(),
+                            backgroundColor: AppColors.red,
+                            textColor: AppColors.white,
+                            gravity: ToastGravity.BOTTOM,
+                          );
+                        });
                   },
-                  icon: Icon(
+                  icon: Icon(event.isFavourite ?
+                  Icons.favorite
+                      :
                     Icons.favorite_outline_outlined,
                     size: 25,
                     color: Theme.of(context).cardColor,

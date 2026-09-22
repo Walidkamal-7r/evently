@@ -56,6 +56,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   style: Theme.of(context).textTheme.labelLarge,
                 ),
                 CustomTextField(
+                  filled: true,
+                  fillColor: Theme
+                      .of(context)
+                      .highlightColor,
                   hintText: AppLocalizations.of(context)!.enterYourEmail,
                   hintStyle: Theme.of(context).textTheme.titleSmall,
                   prefixIcon: Icon(
@@ -81,6 +85,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                 ),
                 CustomTextField(
+                  filled: true,
+                  fillColor: Theme
+                      .of(context)
+                      .highlightColor,
                   style: Theme.of(context).textTheme.bodyLarge,
                   hintText: AppLocalizations.of(context)!.enterYourPassword,
                   hintStyle: Theme.of(context).textTheme.titleSmall,
