@@ -1,17 +1,42 @@
+import 'package:evently/model/event.dart';
 import 'package:evently/providers/app_theme_provider.dart';
 import 'package:evently/utils/app_assets.dart';
 import 'package:evently/utils/size_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class EventItem extends StatelessWidget {
-  const EventItem({super.key});
+  final Event event;
+
+  const EventItem({super.key, required this.event});
+
+  static const List<String> darkImages = [
+    AppAssets.sportDark,
+    AppAssets.birthdayDark,
+    AppAssets.meetingDark,
+    AppAssets.bookClubDark,
+    AppAssets.exhibitionDark,
+  ];
+
+  static const List<String> lightImages = [
+    AppAssets.sportLight,
+    AppAssets.birthdayLight,
+    AppAssets.meetingLight,
+    AppAssets.bookClubLight,
+    AppAssets.exhibitionLight,
+  ];
 
   @override
   Widget build(BuildContext context) {
     var height = context.height;
     var width = context.width;
     var themeProvider = Provider.of<AppThemeProvider>(context);
+
+    String eventImage = themeProvider.isDarkMode()
+        ? darkImages[event.eventTypeIndex]
+        : lightImages[event.eventTypeIndex];
+
     return Container(
       height: height * 0.25,
       padding: EdgeInsets.symmetric(
@@ -24,11 +49,7 @@ class EventItem extends StatelessWidget {
         border: Border.all(width: 2, color: Theme.of(context).dividerColor),
         image: DecorationImage(
           fit: BoxFit.fill,
-          image: AssetImage(
-            themeProvider.isDarkMode()
-                ? AppAssets.birthdayDark
-                : AppAssets.birthdayLight,
-          ),
+          image: AssetImage(eventImage),
         ),
       ),
       child: Column(
@@ -48,7 +69,7 @@ class EventItem extends StatelessWidget {
               ),
             ),
             child: Text(
-              '21 Jan',
+              DateFormat('dd MMM').format(event.eventDate).toString(),
               style: Theme.of(context).textTheme.displayLarge,
             ),
           ),
@@ -67,7 +88,7 @@ class EventItem extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    'This is a birthday party',
+                    event.eventTitle,
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ),
