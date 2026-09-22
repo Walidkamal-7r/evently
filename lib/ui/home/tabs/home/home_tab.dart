@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:evently/firebase_utils.dart';
 import 'package:evently/l10n/app_localizations.dart';
+import 'package:evently/model/event.dart';
 import 'package:evently/providers/app_language_provider.dart';
 import 'package:evently/providers/app_theme_provider.dart';
 import 'package:evently/ui/home/tabs/widgets/tab_item.dart';
@@ -18,6 +21,13 @@ class HomeTab extends StatefulWidget {
 
 class _HomeTabState extends State<HomeTab> {
   int selectedIndex = 0;
+  List<Event> eventsList = [];
+  Stream<List<Event>>? eventsStream;
+
+  @override
+  void initState() {
+    eventsStream = getAllEvents();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -116,14 +126,44 @@ class _HomeTabState extends State<HomeTab> {
                     );
                   }).toList()),
               SizedBox(height: height * 0.02,),
-              Expanded(child: ListView.separated
-                (itemBuilder: (context, text) {
-                return EventItem();
-              },
-                  separatorBuilder: (context, text) {
-                    return SizedBox(height: height * 0.02);
+              Expanded(
+                child: StreamBuilder<List<Event>>(
+                  stream: eventsStream,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(child: CircularProgressIndicator(
+                        backgroundColor: Theme
+                            .of(context)
+                            .cardColor,
+                      ),
+                      );
+                    } else if (snapshot.hasError) {
+                      return Center(child: Text(snapshot.error.toString(),
+                        style: Theme
+                            .of(context)
+                            .textTheme
+                            .titleMedium,),);
+                    } else if (!snapshot.hasData && snapshot.data!.isEmpty) {
+                      return Center(child: Text(AppLocalizations.of(context)!
+                          .noEvents,
+                        style: Theme
+                            .of(context)
+                            .textTheme
+                            .titleMedium,),);
+                    } else {
+                      eventsList = snapshot.data!;
+                      return ListView.separated
+                        (itemBuilder: (context, index) {
+                        return EventItem(event: eventsList[index],);
+                      },
+                          separatorBuilder: (context, index) {
+                            return SizedBox(height: height * 0.02);
+                          },
+                          itemCount: eventsList.length
+                      );
+                    }
                   },
-                  itemCount: 20)
+                ),
               ),
             ],
           ),
@@ -131,4 +171,29 @@ class _HomeTabState extends State<HomeTab> {
       ),
     );
   }
+
+  Stream<List<Event>> getAllEvents() {
+    Stream<QuerySnapshot<Event>> snapshots = FirebaseUtils
+        .getEventsCollection()
+        .snapshots();
+    return snapshots.map((QuerySnapshot<Event> querySnapshot) {
+      return querySnapshot.docs.map((doc) {
+        return doc.data();
+      }).toList();
+    });
+  }
 }
+/*
+eventsList.isEmpty ?
+                  Center(child: Text(AppLocalizations.of(context)!.noEvents,style: Theme.of(context).textTheme.titleMedium,),)
+                  :
+                  ListView.separated
+                (itemBuilder: (context, index) {
+                return EventItem(event: eventsList[index],);
+              },
+                  separatorBuilder: (context, index) {
+                    return SizedBox(height: height * 0.02);
+                  },
+                  itemCount: eventsList.length
+                  )
+ */

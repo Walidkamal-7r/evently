@@ -61,5 +61,6 @@
   "editEvent": "Edit event",
   "eventDetails": "Event details",
   "emptyField": "This field is required",
-  "added": "Event added successfully"
+  "added": "Event added successfully",
+  "noEvents": "No events found"
 }

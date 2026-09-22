@@ -260,7 +260,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
   void addEvent() {
     if (formKey.currentState?.validate() == true) {
       Event event = Event(
-          eventImage: selectedEventImage,
+          eventTypeIndex: selectedIndex,
           eventName: selectedEventName,
           eventTitle: title,
           eventDescription: description,
@@ -269,11 +269,11 @@ class _AddEventScreenState extends State<AddEventScreen> {
               selectedTime!.hour, selectedTime!.minute)
       );
       FirebaseUtils.addEventToFireStore(event).then((value) {
-        ToastUtils.toastMsg(g(
+        ToastUtils.toastMsg(
               msg: AppLocalizations.of(context)!.added,
               backgroundColor: Theme.of(context).cardColor,
               textColor: AppColors.white,
-              gravity: ToastGravity.BOTTO);
+            gravity: ToastGravity.BOTTOM);
         //todo: back to home screen
       },)
           .catchError((error) {

@@ -1,5 +1,4 @@
 import 'package:evently/l10n/app_localizations.dart';
-import 'package:evently/ui/home/tabs/widgets/event_item.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../utils/size_utils.dart';
@@ -38,15 +37,15 @@ class FavouriteTab extends StatelessWidget {
                 .of(context)
                 .cardColor,),
           ),
-          Expanded(child: ListView.separated
-            (itemBuilder: (context, text) {
-            return EventItem();
-          },
-              separatorBuilder: (context, text) {
-                return SizedBox(height: height * 0.02);
-              },
-              itemCount: 20)
-          ),
+          //   Expanded(child: ListView.separated
+          //     (itemBuilder: (context, text) {
+          //     return EventItem(event: null,);
+          //   },
+          //       separatorBuilder: (context, text) {
+          //         return SizedBox(height: height * 0.02);
+          //       },
+          //       itemCount: 20)
+          //   ),
         ],
       ),
     )
