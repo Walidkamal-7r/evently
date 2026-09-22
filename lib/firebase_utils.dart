@@ -19,4 +19,18 @@ class FirebaseUtils {
     event.id = docRef.id;
     return docRef.set(event);
   }
+
+  static Future<void> updateIsFavourite(Event event) {
+    return getEventsCollection().doc(event.id).update(
+        {'isFavourite': !event.isFavourite});
+  }
+
+  static Stream<List<Event>> getAllFavEvents() {
+    return getEventsCollection().where('isFavourite', isEqualTo: true).orderBy(
+        'eventDate').snapshots().map((querySnapshot) {
+      return querySnapshot.docs.map(((doc) {
+        return doc.data();
+      })).toList();
+    });
+  }
 }
