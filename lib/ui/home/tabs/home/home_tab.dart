@@ -4,6 +4,7 @@ import 'package:evently/l10n/app_localizations.dart';
 import 'package:evently/model/event.dart';
 import 'package:evently/providers/app_language_provider.dart';
 import 'package:evently/providers/app_theme_provider.dart';
+import 'package:evently/providers/user_provider.dart';
 import 'package:evently/ui/home/tabs/widgets/tab_item.dart';
 import 'package:evently/utils/app_colors.dart';
 import 'package:evently/utils/size_utils.dart';
@@ -13,7 +14,7 @@ import 'package:provider/provider.dart';
 import '../widgets/event_item.dart';
 
 class HomeTab extends StatefulWidget {
-  HomeTab({super.key});
+  const HomeTab({super.key});
 
   @override
   State<HomeTab> createState() => _HomeTabState();
@@ -27,6 +28,7 @@ class _HomeTabState extends State<HomeTab> {
 
   @override
   void initState() {
+    super.initState();
     eventsStream = getAllEvents();
   }
 
@@ -36,6 +38,7 @@ class _HomeTabState extends State<HomeTab> {
     var width = context.width;
     var themeProvider = Provider.of<AppThemeProvider>(context);
     var languageProvider = Provider.of<AppLanguageProvider>(context);
+    var userProvider = Provider.of<UserProvider>(context);
     List<String> eventNamesList = [
       AppLocalizations.of(context)!.all,
       AppLocalizations.of(context)!.sport,
@@ -63,7 +66,7 @@ class _HomeTabState extends State<HomeTab> {
                               .of(context)
                               .textTheme
                               .titleSmall,),
-                        Text('Walid kamal', style: Theme
+                        Text(userProvider.currentUser!.name, style: Theme
                             .of(context)
                             .textTheme
                             .headlineSmall,)
@@ -76,7 +79,7 @@ class _HomeTabState extends State<HomeTab> {
                               .changeTheme(ThemeMode.light) : themeProvider
                               .changeTheme(ThemeMode.dark);
                         },
-                        icon: Icon(themeProvider.isDarkMode()
+                        icon: Icon(themeProvider.isDarkMode(context)
                             ? Icons.dark_mode_outlined
                             : Icons.light_mode_outlined, size: 25, color: Theme
                             .of(context)

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:evently/model/my_user.dart';
 
 import 'model/event.dart';
 
@@ -32,5 +33,23 @@ class FirebaseUtils {
         return doc.data();
       })).toList();
     });
+  }
+
+  static CollectionReference<MyUser> getUsersCollection() {
+    return FirebaseFirestore.instance.collection(MyUser.collectionName)
+        .withConverter<MyUser>(
+      fromFirestore: (snapshot, options) =>
+          MyUser.fromJsonFirestore(snapshot.data()!),
+      toFirestore: (user, options) => user.toJsonFirestore(),
+    );
+  }
+
+  static Future<void> addUserToFireStore(MyUser myUser) {
+    return getUsersCollection().doc(myUser.id).set(myUser);
+  }
+
+  static Future<MyUser?> readUserFromFirestore(String uId) async {
+    var querySnapshot = await getUsersCollection().doc(uId).get();
+    return querySnapshot.data();
   }
 }
