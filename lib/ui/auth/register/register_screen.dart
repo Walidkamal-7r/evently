@@ -1,3 +1,6 @@
+import 'package:evently/firebase_utils.dart';
+import 'package:evently/model/my_user.dart';
+import 'package:evently/providers/user_provider.dart';
 import 'package:evently/utils/TOAST_UTILS.dart';
 import 'package:evently/utils/app_assets.dart';
 import 'package:evently/utils/app_colors.dart';
@@ -15,7 +18,7 @@ import '../../widgets/custom_elevated_button.dart';
 import '../../widgets/custom_text_field.dart';
 
 class RegisterScreen extends StatefulWidget {
-  RegisterScreen({super.key});
+  const RegisterScreen({super.key});
 
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
@@ -32,6 +35,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   var formKey = GlobalKey<FormState>();
 
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     var height = context.height;
@@ -52,7 +56,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 spacing: height * 0.02,
                 children: [
                   Image.asset(
-                    themeProvider.isDarkMode()
+                    themeProvider.isDarkMode(context)
                         ? AppAssets.eventlyDarkS
                         : AppAssets.eventlyLightS,
                   ),
@@ -194,7 +198,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   SizedBox(height: height * 0.001),
                   CustomElevatedButton(
                     onPressed: register,
-                    child: Text(
+                    child: isLoading ? CircularProgressIndicator()
+                        :
+                    Text(
                       AppLocalizations.of(context)!.signUp2,
                       style: AppStyles.medium20White,
                     ),
@@ -211,9 +217,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       TextButton(
                         onPressed: () {
-                          //todo : nav to register screen.
-                          Navigator.of(context)
-                              .pushNamed(AppRoutes.loginRouteName);
+
                         },
                         child: Text(
                           AppLocalizations.of(context)!.login,
@@ -299,6 +303,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
             email: emailController.text,
             password: passwordController.text,
           );
+          MyUser myUser = MyUser(id: credential.user?.uid ?? '',
+              name: nameController.text,
+              email: emailController.text);
+          await FirebaseUtils.addUserToFireStore(myUser);
+          var userProvider = Provider.of<UserProvider>(context, listen: false);
+          userProvider.updateUser(myUser);
+          isLoading = true;
+          setState(() {
+
+          });
           ToastUtils.toastMsg(
             msg: 'Account created successfully.',
             backgroundColor: Theme
@@ -307,8 +321,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
             textColor: AppColors.white,
             gravity: ToastGravity.BOTTOM,
           );
+          Navigator.of(context).pushReplacementNamed(AppRoutes.homeRouteName);
         } on FirebaseAuthException catch (e) {
           if (e.code == 'weak-password') {
+            isLoading = false;
             ToastUtils.toastMsg(
               msg: 'The password provided is too weak.',
               backgroundColor: AppColors.red,
@@ -316,6 +332,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               gravity: ToastGravity.BOTTOM,
             );
           } else if (e.code == 'email-already-in-use') {
+            isLoading = false;
             ToastUtils.toastMsg(
               msg: 'The account already exists for that email.',
               backgroundColor: AppColors.red,
@@ -324,6 +341,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             );
           }
         } catch (e) {
+          isLoading = false;
           ToastUtils.toastMsg(
             msg: e.toString(),
             backgroundColor: AppColors.red,

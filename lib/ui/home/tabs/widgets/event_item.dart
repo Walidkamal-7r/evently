@@ -11,7 +11,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-class EventItem extends StatelessWidget {
+class EventItem extends StatefulWidget {
   final Event event;
 
   const EventItem({super.key, required this.event});
@@ -33,14 +33,19 @@ class EventItem extends StatelessWidget {
   ];
 
   @override
+  State<EventItem> createState() => _EventItemState();
+}
+
+class _EventItemState extends State<EventItem> {
+  @override
   Widget build(BuildContext context) {
     var height = context.height;
     var width = context.width;
     var themeProvider = Provider.of<AppThemeProvider>(context);
 
-    String eventImage = themeProvider.isDarkMode()
-        ? darkImages[event.eventTypeIndex]
-        : lightImages[event.eventTypeIndex];
+    String eventImage = themeProvider.isDarkMode(context)
+        ? EventItem.darkImages[widget.event.eventTypeIndex]
+        : EventItem.lightImages[widget.event.eventTypeIndex];
 
     return Container(
       height: height * 0.25,
@@ -74,7 +79,7 @@ class EventItem extends StatelessWidget {
               ),
             ),
             child: Text(
-              DateFormat('dd MMM').format(event.eventDate).toString(),
+              DateFormat('dd MMM').format(widget.event.eventDate).toString(),
               style: Theme.of(context).textTheme.displayLarge,
             ),
           ),
@@ -93,33 +98,38 @@ class EventItem extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    event.eventTitle,
+                    widget.event.eventTitle,
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                 ),
                 IconButton(
-                  onPressed: () {irebaseUtils.updateIsFavourite(event)
+                  onPressed: () {
+                    FirebaseUtils.updateIsFavourite(widget.event)
                         .then((value) {
-                          ToastUtils.toastMsg(
-                            msg: AppLocalizations.of(context)!.addedFav,
-                            backgroundColor: Theme.of(context).cardColor,
-                            textColor: AppColors.white,
-                            gravity: ToastGravity.BOTTOM,
-                          );
-                        })
+                      if (!context.mounted) return;
+                      ToastUtils.toastMsg(
+                        msg: AppLocalizations.of(context)!.addedFav,
+                        backgroundColor: Theme
+                            .of(context)
+                            .cardColor,
+                        textColor: AppColors.white,
+                        gravity: ToastGravity.BOTTOM,
+                      );
+                    })
                         .catchError((error) {
-                          ToastUtils.toastMsg(
-                            msg: error.toString(),
-                            backgroundColor: AppColors.red,
-                            textColor: AppColors.white,
-                            gravity: ToastGravity.BOTTOM,
-                          );
-                        });
+                      if (!context.mounted) return;
+                      ToastUtils.toastMsg(
+                        msg: error.toString(),
+                        backgroundColor: AppColors.red,
+                        textColor: AppColors.white,
+                        gravity: ToastGravity.BOTTOM,
+                      );
+                    });
                   },
-                  icon: Icon(event.isFavourite ?
+                  icon: Icon(widget.event.isFavourite ?
                   Icons.favorite
                       :
-                    Icons.favorite_outline_outlined,
+                  Icons.favorite_outline_outlined,
                     size: 25,
                     color: Theme.of(context).cardColor,
                   ),

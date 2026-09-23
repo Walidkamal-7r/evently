@@ -66,7 +66,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
       AppLocalizations.of(context)!.exhibition,
     ];
     selectedEventName = eventNamesList[selectedIndex];
-    selectedEventImage = themeProvider.isDarkMode()
+    selectedEventImage = themeProvider.isDarkMode(context)
         ? eventImagesDarkList[selectedIndex]
         : eventImagesLightList[selectedIndex];
     return Scaffold(
@@ -96,7 +96,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
             },
             icon: Icon(
               Icons.arrow_back_ios_new,
-              color: themeProvider.isDarkMode()
+              color: themeProvider.isDarkMode(context)
                   ? AppColors.white
                   : AppColors.mainColorLight,
             ),
@@ -275,7 +275,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
               backgroundColor: Theme.of(context).cardColor,
               textColor: AppColors.white,
             gravity: ToastGravity.BOTTOM);
-        //todo: back to home screen
+        Navigator.pop(context);
       },)
           .catchError((error) {
         ToastUtils.toastMsg(
