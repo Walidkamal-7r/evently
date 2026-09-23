@@ -1,11 +1,14 @@
 import 'package:evently/l10n/app_localizations.dart';
+import 'package:evently/providers/user_provider.dart';
 import 'package:evently/ui/home/tabs/profile/language/language_bottom_sheet.dart';
 import 'package:evently/ui/home/tabs/profile/theme/theme_bottom_sheet.dart';
 import 'package:evently/ui/home/tabs/profile/widgets/app_config_item.dart';
 import 'package:evently/utils/app_assets.dart';
 import 'package:evently/utils/app_colors.dart';
+import 'package:evently/utils/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../../../../providers/app_language_provider.dart';
 import '../../../../providers/app_theme_provider.dart';
 import '../../../../utils/size_utils.dart';
@@ -22,6 +25,7 @@ class _ProfileTabState extends State<ProfileTab> {
   Widget build(BuildContext context) {
     var languageProvider = Provider.of<AppLanguageProvider>(context);
     var themeProvider = Provider.of<AppThemeProvider>(context);
+    var userProvider = Provider.of<UserProvider>(context);
     var height = context.height;
     var width = context.width;
     return Padding(
@@ -34,10 +38,10 @@ class _ProfileTabState extends State<ProfileTab> {
                 radius: 50,
                 backgroundImage: AssetImage(AppAssets.routeLogo),
               ),
-              Text('Route Academy',
+              Text(userProvider.currentUser!.name,
                 style: Theme.of(context).textTheme.labelMedium,
               ),
-              Text('Routeacademy@gmail.com',
+              Text(userProvider.currentUser!.email,
                 style: Theme.of(context).textTheme.titleSmall,
               ),
               SizedBox(height: height*0.01,),
@@ -46,7 +50,7 @@ class _ProfileTabState extends State<ProfileTab> {
                   activeTrackColor: Theme.of(context).cardColor,
                     inactiveTrackColor: Theme.of(context).focusColor,
                     trackOutlineColor: WidgetStateColor.transparent,
-                    value: themeProvider.isDarkMode(),
+                    value: themeProvider.isDarkMode(context),
                     onChanged: (value){
                       themeProvider.changeTheme(value ? ThemeMode.dark : ThemeMode.light);
                     }
@@ -60,7 +64,11 @@ class _ProfileTabState extends State<ProfileTab> {
               AppConfigItem(text: AppLocalizations.of(context)!.logout,
                 icon: IconButton(icon: Icon(Icons.logout , color: AppColors.red),
                   onPressed: (){
-                    //todo : logout
+                    // delete account =>  FirebaseAuth.instance.signOut();
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                      AppRoutes.loginRouteName,
+                          (route) => false,
+                    );
                   },),
               )
             ]

@@ -11,7 +11,10 @@ class AppThemeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool isDarkMode (){
-    return appTheme == ThemeMode.dark ;
+  bool isDarkMode(BuildContext context) {
+    if (appTheme == ThemeMode.system) {
+      return MediaQuery.platformBrightnessOf(context) == Brightness.dark;
+    }
+    return appTheme == ThemeMode.dark;
   }
 }
