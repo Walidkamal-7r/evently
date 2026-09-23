@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:evently/model/my_user.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import 'model/event.dart';
 
@@ -52,4 +54,15 @@ class FirebaseUtils {
     var querySnapshot = await getUsersCollection().doc(uId).get();
     return querySnapshot.data();
   }
+
+  static Future<UserCredential> signInWithGoogle() async {
+    final googleUser = await GoogleSignIn().signIn();
+    final googleAuth = await googleUser!.authentication;
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+    return FirebaseAuth.instance.signInWithCredential(credential);
+  }
+
 }
