@@ -266,7 +266,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         .of(context)
                         .dividerColor,
                     padding: height * 0.02,
-                    onPressed: register,
+                    onPressed: registerWithGoogle,
                     backgroundColor: Theme
                         .of(context)
                         .highlightColor,
@@ -352,4 +352,51 @@ class _RegisterScreenState extends State<RegisterScreen> {
       }
     }
   }
+
+  void registerWithGoogle() async {
+    isLoading = true;
+    setState(() {});
+    try {
+      final credential = await FirebaseUtils.signInWithGoogle();
+      var existingUser = await FirebaseUtils.readUserFromFirestore(
+          credential.user?.uid ?? '');
+
+      MyUser myUser;
+      if (existingUser == null) {
+        myUser = MyUser(
+          id: credential.user?.uid ?? '',
+          name: credential.user?.displayName ?? '',
+          email: credential.user?.email ?? '',
+        );
+        await FirebaseUtils.addUserToFireStore(myUser);
+      } else {
+        myUser = existingUser;
+      }
+
+      if (!context.mounted) return;
+      var userProvider = Provider.of<UserProvider>(context, listen: false);
+      userProvider.updateUser(myUser);
+      isLoading = false;
+      setState(() {});
+      ToastUtils.toastMsg(
+        msg: 'Account created successfully',
+        backgroundColor: Theme
+            .of(context)
+            .cardColor,
+        textColor: AppColors.white,
+        gravity: ToastGravity.BOTTOM,
+      );
+      Navigator.of(context).pushReplacementNamed(AppRoutes.homeRouteName);
+    } catch (e) {
+      isLoading = false;
+      setState(() {});
+      ToastUtils.toastMsg(
+        msg: e.toString(),
+        backgroundColor: AppColors.red,
+        textColor: AppColors.white,
+        gravity: ToastGravity.BOTTOM,
+      );
+    }
+  }
+
 }
