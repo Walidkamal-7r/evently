@@ -1,4 +1,5 @@
 import 'package:evently/firebase_utils.dart';
+import 'package:evently/model/my_user.dart';
 import 'package:evently/providers/user_provider.dart';
 import 'package:evently/utils/TOAST_UTILS.dart';
 import 'package:evently/utils/app_assets.dart';
@@ -225,7 +226,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         .of(context)
                         .dividerColor,
                     padding: height * 0.02,
-                    onPressed: login,
+                    onPressed: loginWithGoogle,
                     backgroundColor: Theme
                         .of(context)
                         .highlightColor,
@@ -311,6 +312,52 @@ class _LoginScreenState extends State<LoginScreen> {
           );
         }
       }
+    }
+  }
+
+  void loginWithGoogle() async {
+    isLoading = true;
+    setState(() {});
+    try {
+      final credential = await FirebaseUtils.signInWithGoogle();
+      var existingUser = await FirebaseUtils.readUserFromFirestore(
+          credential.user?.uid ?? '');
+
+      MyUser myUser;
+      if (existingUser == null) {
+        myUser = MyUser(
+          id: credential.user?.uid ?? '',
+          name: credential.user?.displayName ?? '',
+          email: credential.user?.email ?? '',
+        );
+        await FirebaseUtils.addUserToFireStore(myUser);
+      } else {
+        myUser = existingUser;
+      }
+
+      if (!context.mounted) return;
+      var userProvider = Provider.of<UserProvider>(context, listen: false);
+      userProvider.updateUser(myUser);
+      isLoading = false;
+      setState(() {});
+      ToastUtils.toastMsg(
+        msg: 'Login Success',
+        backgroundColor: Theme
+            .of(context)
+            .cardColor,
+        textColor: AppColors.white,
+        gravity: ToastGravity.BOTTOM,
+      );
+      Navigator.of(context).pushReplacementNamed(AppRoutes.homeRouteName);
+    } catch (e) {
+      isLoading = false;
+      setState(() {});
+      ToastUtils.toastMsg(
+        msg: e.toString(),
+        backgroundColor: AppColors.red,
+        textColor: AppColors.white,
+        gravity: ToastGravity.BOTTOM,
+      );
     }
   }
 }
